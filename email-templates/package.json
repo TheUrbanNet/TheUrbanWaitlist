@@ -1,0 +1,34 @@
+{
+  "name": "@theurbannet/waitlist-emails",
+  "version": "1.0.0",
+  "description": "Reusable React email components and layouts for TheUrbanNet / Urbannet",
+  "type": "module",
+  "scripts": {
+    "dev": "email dev --dir emails",
+    "render": "tsx scripts/render-all.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && npm run render"
+  },
+  "keywords": [
+    "email",
+    "react-email",
+    "theurbannet",
+    "urbannet"
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.1.0",
+    "@untitledui/icons": "^0.0.22",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@react-email/ui": "^6.9.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react-email": "^6.9.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
