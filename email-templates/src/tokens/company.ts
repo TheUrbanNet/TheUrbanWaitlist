@@ -4,8 +4,10 @@
  */
 export const company = {
   name: 'TheUrbanNet',
-  legalName: 'UrbanNet is a company registered in Scotland (No.09446231)',
-  address: 'Broadwalk House, 5 Appold Street, London EC2A 2AG',
+  legalName: 'TheUrbanNet LTD is a company registered in Scotland (No. SC867664)',
+  /* Registered office address. Left empty until a registered office service
+     is in place; footers hide the line while it is empty. */
+  address: '',
   websiteUrl: 'https://theurbannet.com',
   providerUrl: 'https://provider.theurbannet.com/',
   unsubscribeUrl: '{{unsubscribeUrl}}',

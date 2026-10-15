@@ -38,12 +38,12 @@ Run these from inside this `email-templates` folder, not the repo root.
 | Customer confirmation | `emails/template-2/customer-confirmation.tsx` | A customer joins the waitlist    |
 | Business confirmation | `emails/template-2/business-confirmation.tsx` | A business joins the waitlist    |
 
-The wording these emails send today is in `lib/emails/confirmation.js` at the repo root.
-Use it as the starting copy.
+The original confirmation copy, from the retired Vercel backend, is archived in
+`legacy/vercel-backend-confirmation.js`. Use it as the starting copy.
 
 ## Build a new template, step by step
 
-1. **Make a branch.** Start from `feat/vercel-backend`, for example
+1. **Make a branch.** Start from `email/templates`, for example
    `git switch -c email/customer-confirmation`.
 2. **Copy the reference.** Duplicate `emails/template-2/template-2.2.tsx` in the same folder
    and give it a clear name, like `customer-confirmation.tsx`. Keeping it in this folder means
@@ -67,7 +67,7 @@ Use it as the starting copy.
    `mob-block`).
 8. **Add it to the build.** Add a line for your file in `scripts/render-all.ts`, but only
    once the file exists. Then run `npm run build`. It should finish with "Done" and no errors.
-9. **Commit and open a pull request** into `feat/vercel-backend`. Include a desktop and a
+9. **Commit and open a pull request** into `email/templates`. Include a desktop and a
    phone screenshot, and list any files you deleted or renamed.
 
 ## Before you open a pull request
@@ -96,9 +96,10 @@ errors before they're pushed.
 
 ## Not connected yet
 
-The waitlist still sends the hand-written HTML in `lib/emails/confirmation.js`, through
-`api/submit.js` and Resend. These templates are not wired into sending yet; that is a
-separate piece of work.
+Confirmation emails are sent by the Google Apps Script, through Resend. Changes here
+only reach inboxes once the Apps Script is updated with the newly rendered HTML from
+`dist/html/`. The Vercel backend (`feat/vercel-backend`)
+that used to send them has been retired.
 
 ## Folder guide
 
@@ -110,4 +111,5 @@ src/
   lib/assetUrl.ts      builds image links (set EMAIL_ASSET_BASE_URL for real sends)
   tokens/company.ts    legal line, address, website and unsubscribe link
 scripts/render-all.ts  the list of templates `npm run build` exports
+legacy/                the old Vercel backend email, kept for reference only
 ```

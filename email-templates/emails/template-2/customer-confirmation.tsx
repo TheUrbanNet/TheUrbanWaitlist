@@ -201,8 +201,12 @@ export const CustomerConfirmation = ({
                   <Column className="w-full pt-8 align-top">
                     <Text className="font-11 text-fg-3 m-0 font-sans">
                       {company.legalName}
-                      <br />
-                      {company.address}
+                      {company.address && (
+                        <>
+                          <br />
+                          {company.address}
+                        </>
+                      )}
                     </Text>
                   </Column>
                 </Row>
