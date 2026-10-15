@@ -1,0 +1,15 @@
+# Cloudflare Pages response headers. https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+# Images rarely change and are not fingerprinted, so a week is a safe cache.
+# A replaced image may take up to a week to show for returning visitors.
+/assets/*
+  Cache-Control: public, max-age=604800
+
+/email-assets/*
+  Cache-Control: public, max-age=604800

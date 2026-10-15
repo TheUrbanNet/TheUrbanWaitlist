@@ -307,6 +307,15 @@ const GOOGLE_SCRIPT_URL =
 
 let pendingSubmissionData = null;
 
+/*
+ * Spam protection. The honeypot is a field people never see, so only bots
+ * fill it in. form_elapsed_ms lets the Apps Script reject submissions sent
+ * faster than a person could fill the form. Both are checked again in the
+ * Apps Script, because a bot can post to the endpoint without this page.
+ */
+const honeypotInput = document.getElementById("company-fax");
+const pageLoadedAt = Date.now();
+
 /* Prepare form data */
 
 function createSubmissionData() {
@@ -314,6 +323,10 @@ function createSubmissionData() {
   const submissionData = new URLSearchParams();
 
   submissionData.append("form_type", "business");
+  submissionData.append(
+    "form_elapsed_ms",
+    String(Date.now() - pageLoadedAt),
+  );
   submissionData.append(
     "submission_id",
     window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`,
@@ -468,6 +481,12 @@ form.addEventListener("submit", async (event) => {
 
   if (!form.checkValidity()) {
     form.reportValidity();
+    return;
+  }
+
+  /* A filled honeypot means a bot: show success so it moves on, send nothing */
+  if (honeypotInput.value) {
+    await showSuccessMessage();
     return;
   }
 

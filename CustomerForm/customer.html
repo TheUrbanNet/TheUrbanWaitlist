@@ -5,7 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="customer.js" defer></script>
-    <title>Customer Form</title>
+    <title>Join as a Customer | TheUrbanNet Waitlist</title>
+    <meta name="description" content="Tell us which local services you&#x27;re looking for and be first to hear when TheUrbanNet launches.">
+
+    <!-- Link previews (WhatsApp, iMessage, LinkedIn, X, Facebook) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TheUrbanNet">
+    <meta property="og:title" content="Join as a Customer | TheUrbanNet Waitlist">
+    <meta property="og:description" content="Tell us which local services you&#x27;re looking for and be first to hear when TheUrbanNet launches.">
+    <meta property="og:url" content="https://waitlist.theurbannet.com/CustomerForm/customer">
+    <meta property="og:image" content="https://waitlist.theurbannet.com/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="TheUrbanNet: Real Services, Real People, Real Easy. A group of friends smiling together outdoors.">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#DF5B2E">
+    <script src="../Consent/consent.js" defer></script>
   </head>
   <body>
     <section class="main-content">
@@ -544,6 +564,18 @@
           </div>
         </fieldset>
 
+        <!-- Spam honeypot: hidden from people, so only bots fill it in -->
+        <div class="honeypot" aria-hidden="true">
+          <label for="company-fax">Leave this field empty</label>
+          <input
+            type="text"
+            id="company-fax"
+            name="company_fax"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+
         <div class="form-actions">
           <div
             id="submissionError"
@@ -557,6 +589,12 @@
           <button class="cta-button" type="submit" id="submitBtn">
             Join the Waitlist
           </button>
+          <p class="privacy-notice">
+            By joining, you agree to receive emails about the waitlist and our
+            launch. You can unsubscribe at any time. Read our
+            <a href="../PrivacyPolicy/privacy.html">Privacy Policy</a> to see
+            how we use your details.
+          </p>
         </div>
       </form>
     </section>

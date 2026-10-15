@@ -1,0 +1,6 @@
+# Cloudflare Pages redirects. https://developers.cloudflare.com/pages/configuration/redirects/
+# The bare domain goes straight to the landing page, so visitors and link-preview
+# crawlers skip index.html's "Redirecting..." step. index.html stays as a
+# fallback for local static servers. 302, not 301, so browsers don't cache it
+# forever if the landing page ever moves to the root.
+/  /LandingPage/waitlist  302

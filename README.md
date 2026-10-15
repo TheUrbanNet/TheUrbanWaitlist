@@ -36,9 +36,20 @@ POST needs a real origin.
 ├── CustomerForm/    customer.html + customer.js
 ├── BusinessForm/    business.html + business.js
 ├── CookiePolicy/  PrivacyPolicy/  TermsOfService/
-├── assets/          images shared by every page
-└── additional images/   unused reference material, not linked by any page
+├── Consent/         consent.js: cookie choice + analytics loader, on every page
+├── assets/          images shared by every page, plus og-image.jpg and favicon.svg
+├── 404.html         Cloudflare Pages serves this for any unknown URL
+├── _redirects       Cloudflare: sends the bare domain to the landing page
+├── _headers         Cloudflare: security headers and image caching
+├── robots.txt  sitemap.xml
+└── favicon.ico  apple-touch-icon.png
 ```
+
+The site is hosted on **Cloudflare Pages** at https://waitlist.theurbannet.com, deployed
+from `main`. Cloudflare serves every tracked file publicly, so anything that should not be
+on the internet (notes, editor config, unused images) belongs in `.gitignore`, not the repo.
+`404.html` is served for unknown URLs at any depth, which is why its links and assets use
+root-absolute paths (`/assets/…`).
 
 Each folder owns its own stylesheet. `LandingPage/style.css` is the largest and the only
 one with the full responsive system described below.
@@ -124,6 +135,19 @@ Script editor. Worth exporting a copy (via `clasp` or by hand) if you need its h
 The endpoint is visible in client-side JS. That is unavoidable for a static site, so the
 Apps Script must treat every submission as untrusted and do its own validation.
 
+### Spam protection
+
+Both forms send two extra fields the Apps Script should check before saving a row:
+
+| Field | Meaning | Reject when |
+|---|---|---|
+| `company_fax` | Honeypot, hidden off-screen. People never see it. | it is not empty |
+| `form_elapsed_ms` | Milliseconds between page load and submit | missing, or under `3000` |
+
+The page itself skips sending when the honeypot is filled, but a bot can post straight to
+the endpoint, so the Apps Script check is the one that matters. Return
+`{ "success": true }` for rejected spam too, so bots get no signal to adapt.
+
 ---
 
 ## Form conventions
@@ -171,3 +195,14 @@ Everything lives in `assets/` and is referenced from each page as `../assets/…
 Four images are still 2 MB+ (`hero-image.png`, `hero-image_phone.png`, `UVP1.png`,
 `Fitness.png`). Converting them to WebP — as `beauty`, `fashion` and `home` already are —
 is the single biggest page-weight win available.
+
+---
+
+## Cookies and analytics
+
+The site sets no cookies. `Consent/consent.js` stores the banner choice in localStorage
+(`theurbannet-cookie-consent`) and, only after "Accept", loads Cloudflare Web Analytics.
+Analytics stays off until `ANALYTICS_TOKEN` at the top of that file is filled in with the
+site token from Cloudflare (Web Analytics → Add a site → manual JS snippet). "Cookie Settings"
+in the landing page footer reopens the banner. If any of this changes, update
+`CookiePolicy/cookies.html` to match.
