@@ -50,6 +50,9 @@ const nav = document.querySelector("nav");
 
   /* Cookie consent
    *
+   * Storing the choice and loading analytics live in ../Consent/consent.js,
+   * which every page includes. This file only drives the banner UI.
+   *
    * The banner is fixed to the bottom of the viewport, which puts it directly
    * over the footer links on a phone. Two things keep them reachable:
    *
@@ -58,26 +61,8 @@ const nav = document.querySelector("nav");
    *   2. The choice is remembered, so the banner does not come back on every
    *      page load and re-cover them.
    */
-  const CONSENT_STORAGE_KEY = "theurbannet-cookie-consent";
-
-  function readStoredConsent() {
-    try {
-      return localStorage.getItem(CONSENT_STORAGE_KEY);
-    } catch (error) {
-      /* Private browsing and blocked storage both throw here. The banner then
-         behaves as it did before: shown every visit, but no longer covering
-         anything, because the footer padding is driven by the same variable. */
-      return null;
-    }
-  }
-
-  function storeConsent(choice) {
-    try {
-      localStorage.setItem(CONSENT_STORAGE_KEY, choice);
-    } catch (error) {
-      /* Nothing to do â€” the banner still closes for this session. */
-    }
-  }
+  const consent = window.TheUrbanNetConsent;
+  const cookieSettingsButton = document.getElementById("cookieSettingsBtn");
 
   function updateBannerHeight() {
     const height = banner.classList.contains("is-hidden")
@@ -91,13 +76,21 @@ const nav = document.querySelector("nav");
   }
 
   function dismissBanner(choice) {
-    storeConsent(choice);
+    consent.setChoice(choice);
     banner.classList.add("is-hidden");
     banner.setAttribute("aria-hidden", "true");
     updateBannerHeight();
   }
 
-  if (readStoredConsent()) {
+  /* Reopened from "Cookie settings" in the footer so a choice can be changed */
+  function showBanner() {
+    banner.classList.remove("is-static", "is-hidden");
+    banner.removeAttribute("aria-hidden");
+    updateBannerHeight();
+    acceptButton.focus();
+  }
+
+  if (consent.getChoice()) {
     /* Already answered: hide it without playing the slide-out */
     banner.classList.add("is-static", "is-hidden");
     banner.setAttribute("aria-hidden", "true");
@@ -120,6 +113,8 @@ const nav = document.querySelector("nav");
   declineButton.addEventListener("click", () => {
     dismissBanner("declined");
   });
+
+  cookieSettingsButton.addEventListener("click", showBanner);
 
   document.addEventListener("DOMContentLoaded", function () {
   const uvpSection = document.querySelector("#UVP");
@@ -207,7 +202,7 @@ const nav = document.querySelector("nav");
   observer.observe(uvpSection);
 });
 
-/* FAQ exclusive accordion â€” opening one panel collapses any other open
+/* FAQ exclusive accordion: opening one panel collapses any other open
    panel so that only a single FAQ item is ever visible at a time. */
 document.querySelectorAll(".faq-list .faq-item").forEach((item) => {
   item.addEventListener("toggle", () => {

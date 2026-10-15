@@ -426,6 +426,39 @@ input[type="checkbox"] {
   outline-offset: 3px;
 }
 
+/* Consent line under the submit button */
+.privacy-notice {
+  margin-top: 1rem;
+
+  color: #4b5563;
+  font-family: var(--alternative-font);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-align: center;
+  text-wrap: pretty;
+}
+
+.privacy-notice a {
+  color: var(--primary-color);
+  text-underline-offset: 2px;
+}
+
+.privacy-notice a:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Spam honeypot: moved off-screen rather than display: none, which some bots
+   detect and skip */
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .cta-button {
   width: 100%;
   margin-top: 2rem;

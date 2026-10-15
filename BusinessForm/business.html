@@ -4,8 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Business Form</title>
+    <title>Join as a Service Provider | TheUrbanNet Waitlist</title>
+    <meta name="description" content="Offer beauty, food, fashion, fitness or home services? Join TheUrbanNet waitlist and get discovered by more local customers.">
+
+    <!-- Link previews (WhatsApp, iMessage, LinkedIn, X, Facebook) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TheUrbanNet">
+    <meta property="og:title" content="Join as a Service Provider | TheUrbanNet Waitlist">
+    <meta property="og:description" content="Offer beauty, food, fashion, fitness or home services? Join TheUrbanNet waitlist and get discovered by more local customers.">
+    <meta property="og:url" content="https://waitlist.theurbannet.com/BusinessForm/business">
+    <meta property="og:image" content="https://waitlist.theurbannet.com/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="TheUrbanNet: Real Services, Real People, Real Easy. A group of friends smiling together outdoors.">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#DF5B2E">
     <script src="business.js" defer></script>
+  <script src="../Consent/consent.js" defer></script>
 </head>
 <body>
     <section class="main-content">
@@ -336,7 +356,7 @@ Add any relevant professional qualifications, training or licences you hold     
                            </div>
 
                         <div class="form-group input-group-icon">
-                               <label for="twitterLink" class="sr-only">Twitter Link</label>
+                               <label for="twitterLink" class="sr-only">X (Twitter) Link</label>
                                <input
                                class="portfolio-link"
                                maxlength="2048"
@@ -451,23 +471,33 @@ Add any relevant professional qualifications, training or licences you hold     
 
             <div class="discovery-options">
                 <div class="option">
-                <input type="checkbox" id="booking-social" name="booking_method" value="social-media">
-                <label for="booking-social">Social Media</label>
+                <input type="checkbox" id="booking-dms" name="booking_method" value="social-media-dms">
+                <label for="booking-dms">Social media DMs (Instagram, TikTok)</label>
                 </div>
 
                 <div class="option">
-                <input type="checkbox" id="booking-network" name="booking_method" value="professional-network">
-                <label for="booking-network">Professional Network</label>
+                <input type="checkbox" id="booking-whatsapp" name="booking_method" value="whatsapp-text">
+                <label for="booking-whatsapp">WhatsApp or text message</label>
                 </div>
 
                 <div class="option">
-                <input type="checkbox" id="booking-friends" name="booking_method" value="friends-family">
-                <label for="booking-friends">Friends or Family</label>
+                <input type="checkbox" id="booking-phone" name="booking_method" value="phone">
+                <label for="booking-phone">Phone calls</label>
                 </div>
 
                 <div class="option">
-                <input type="checkbox" id="booking-advertisement" name="booking_method" value="advertisement">
-                <label for="booking-advertisement">Advertisement</label>
+                <input type="checkbox" id="booking-app" name="booking_method" value="booking-app">
+                <label for="booking-app">A booking app (e.g. Fresha, Booksy, Calendly)</label>
+                </div>
+
+                <div class="option">
+                <input type="checkbox" id="booking-website" name="booking_method" value="own-website">
+                <label for="booking-website">My own website</label>
+                </div>
+
+                <div class="option">
+                <input type="checkbox" id="booking-in-person" name="booking_method" value="in-person">
+                <label for="booking-in-person">In person or walk-ins</label>
                 </div>
 
                 <div class="option">
@@ -531,6 +561,12 @@ Add any relevant professional qualifications, training or licences you hold     
             </div>
             </fieldset>
 
+            <!-- Spam honeypot: hidden from people, so only bots fill it in -->
+            <div class="honeypot" aria-hidden="true">
+                <label for="company-fax">Leave this field empty</label>
+                <input type="text" id="company-fax" name="company_fax" tabindex="-1" autocomplete="off">
+            </div>
+
             <!-- Submit Button -->
             <div class="form-actions">
                 <div
@@ -542,6 +578,11 @@ Add any relevant professional qualifications, training or licences you hold     
                     We couldn't confirm your submission. Your details are still here — please try again.
                 </div>
                 <button class="cta-button" type="submit" id="submitBtn">Join the Waitlist</button>
+                <p class="privacy-notice">
+                    By joining, you agree to receive emails about the waitlist and our launch.
+                    You can unsubscribe at any time. Read our
+                    <a href="../PrivacyPolicy/privacy.html">Privacy Policy</a> to see how we use your details.
+                </p>
             </div>
 
             
