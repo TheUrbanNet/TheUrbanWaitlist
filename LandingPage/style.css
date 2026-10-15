@@ -420,6 +420,7 @@ nav {
 
         .marquee-track {
             display: flex;
+            gap: clamp(1rem, 3vw, 2rem);
             width: max-content;
             will-change: transform;
             animation: marquee-scroll 22s linear infinite;
@@ -1198,6 +1199,8 @@ nav {
             cursor: pointer;
 
             color: #fff;
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
             font-family: var(--alternative-font);
             font-size: 1rem;
             font-weight: bold;
