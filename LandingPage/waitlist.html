@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TheUrbanNet Waitlist</title>
     <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Space+Grotesk:wght@700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Space+Grotesk:wght@700&display=swap"></noscript>
 </head>
 <body>
 
@@ -58,8 +62,9 @@
 
         <div class="hero-image">
             <picture>
-                <source media="(min-width: 64rem)" srcset="../assets/hero-image.png">
-                <img src="../assets/hero-image_phone.png" alt="A group of people dressed in vibrant streetwear">
+                <source media="(min-width: 64rem)" type="image/webp" srcset="../assets/hero-image-800.webp 800w, ../assets/hero-image-1200.webp 1200w, ../assets/hero-image-1672.webp 1672w" sizes="(min-width: 90rem) 50vw, 45vw">
+                <source type="image/webp" srcset="../assets/hero-image_phone-480.webp 480w, ../assets/hero-image_phone-768.webp 768w, ../assets/hero-image_phone-1087.webp 1087w" sizes="100vw">
+                <img src="../assets/hero-image_phone.png" srcset="../assets/hero-image_phone-480.webp 480w, ../assets/hero-image_phone-768.webp 768w, ../assets/hero-image_phone-1087.webp 1087w" sizes="100vw" alt="A group of people dressed in vibrant streetwear" width="1087" height="1447" decoding="async">
             </picture>
         </div>
 
@@ -137,7 +142,10 @@
     </div>
     
     <div class="image-wrapper img-mid-left card" tabindex="0" aria-label="Wellness & Fitness">
-      <img src="../assets/Fitness.png" alt="" class="card-front">
+      <picture class="card-front">
+        <source type="image/webp" srcset="../assets/Fitness-320.webp 320w, ../assets/Fitness-480.webp 480w, ../assets/Fitness-800.webp 800w, ../assets/Fitness-1024.webp 1024w" sizes="(min-width: 64rem) 18vw, 45vw">
+        <img src="../assets/Fitness.png" srcset="../assets/Fitness-320.webp 320w, ../assets/Fitness-480.webp 480w, ../assets/Fitness-800.webp 800w, ../assets/Fitness-1024.webp 1024w" sizes="(min-width: 64rem) 18vw, 45vw" alt="" width="1024" height="1536" loading="lazy" decoding="async">
+      </picture>
       <div class="card-back mid-left">
         <p>Wellness & Fitness</p>
       </div>
@@ -175,6 +183,10 @@
      <!-- UVP Section #1 -->
      <section class="OurUVP" id="UVP">
       <div class="UVPcontainer">
+        <picture class="uvp-background" aria-hidden="true">
+          <source type="image/webp" srcset="../assets/UVP1-480.webp 480w, ../assets/UVP1-800.webp 800w, ../assets/UVP1-1200.webp 1200w, ../assets/UVP1-1536.webp 1536w" sizes="100vw">
+          <img src="../assets/UVP1.png" srcset="../assets/UVP1-480.webp 480w, ../assets/UVP1-800.webp 800w, ../assets/UVP1-1200.webp 1200w, ../assets/UVP1-1536.webp 1536w" sizes="100vw" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+        </picture>
 
 <div class="chatConversation" aria-label="Example service discovery conversation">
   <div class="chat-message chat-left">
