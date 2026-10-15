@@ -48,6 +48,7 @@ export const waitlistMobileStyles = `${template2MobileStyles}
     td.mob-w-auto { width: auto !important; }
     td.mob-pl-0 { padding-left: 0 !important; }
     td.mob-px-0 { padding-left: 0 !important; padding-right: 0 !important; }
+    td.mob-pt-3 { padding-top: 12px !important; }
     td.mob-pt-4 { padding-top: 16px !important; }
     td.mob-pt-6 { padding-top: 24px !important; }
     td.mob-border-0 { border-left: 0 !important; border-right: 0 !important; }

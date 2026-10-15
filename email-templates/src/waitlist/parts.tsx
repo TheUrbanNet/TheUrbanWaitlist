@@ -88,19 +88,32 @@ export function Shell({
   );
 }
 
-/** The "TheUrbanNet." text wordmark from the boards: heavy sans, with "Net." in a second colour. */
+/**
+ * The "TheUrbanNet." text wordmark from the boards: heavy sans, with one word in a second
+ * colour. `accent: 'net'` (the boards) colours "Net."; `accent: 'urban'` colours "Urban".
+ */
 export function Wordmark({
   base = 'text-fg',
   net = 'text-orange',
   size = 'text-[24px]',
+  accent = 'net',
 }: {
   base?: string;
   net?: string;
   size?: string;
+  accent?: 'net' | 'urban';
 }) {
   return (
-    <Text className={`${base} ${size} m-0 font-sans font-black leading-[1] tracking-[-0.8px]`}>
-      TheUrban<span className={`${net} font-sans font-black`}>Net.</span>
+    <Text className={`${base} ${size} m-0 whitespace-nowrap font-sans font-black leading-[1] tracking-[-0.8px]`}>
+      {accent === 'urban' ? (
+        <>
+          The<span className={`${net} font-sans font-black`}>Urban</span>Net.
+        </>
+      ) : (
+        <>
+          TheUrban<span className={`${net} font-sans font-black`}>Net.</span>
+        </>
+      )}
     </Text>
   );
 }

@@ -6,6 +6,7 @@ import { BlockButton, type DesignProps, type Edition, Footer, Label, Photo, Shel
 const copy = {
   customer: {
     preview: 'You’re on the list. An invitation to something good.',
+    tag: ['You’re in', 'Early access unlocked'],
     headline: ['You’re on', 'the list.'],
     intro:
       'Something new is coming to local discovery. From the people who make your city feel like yours to the services you never knew you needed, we’re putting it all in one place.',
@@ -18,6 +19,7 @@ const copy = {
   },
   provider: {
     preview: 'Your work. In the frame. An invitation to something good.',
+    tag: ['Spot secured', 'Provider early access'],
     headline: ['Your work.', 'In the frame.'],
     intro:
       'TheUrbanNet is creating a new place for independent providers to be seen. You bring the talent. We’re building the discovery experience that helps more people find it.',
@@ -37,14 +39,15 @@ export function CoverStory({ edition, url = waitlistUrl }: DesignProps & { editi
       {/* Masthead */}
       <Section className="mob-px-6 border-0 border-b-[2px] border-solid border-ink px-[32px] py-[26px]">
         <Row>
-          <Column className="align-middle">
-            <Wordmark />
+          {/* Side by side on desktop; on phones the tag stacks under the wordmark so neither crowds. */}
+          <Column className="mob-block mob-w-auto align-middle">
+            <Wordmark accent="urban" />
           </Column>
-          <Column className="text-right align-middle">
-            <Label className="text-fg text-right">
-              The Urban Edit
+          <Column className="mob-block mob-w-auto mob-pt-3 mob-text-left text-right align-middle">
+            <Label className="text-fg mob-text-left text-right">
+              {c.tag[0]}
               <br />
-              Issue 001 · Waitlist
+              {c.tag[1]}
             </Label>
           </Column>
         </Row>
