@@ -316,6 +316,28 @@ let pendingSubmissionData = null;
 const honeypotInput = document.getElementById("company-fax");
 const pageLoadedAt = Date.now();
 
+/*
+ * Wake the Apps Script while the form is being filled in. After a few idle
+ * minutes Google can take ~20 seconds to start it; a quick GET (answered by
+ * doGet) moves that wait off the submit button. Repeated at most every two
+ * minutes while the person is still working on the form. no-cors because the
+ * reply is never read.
+ */
+const WARM_UP_INTERVAL_MS = 120000;
+let lastWarmUpAt = 0;
+
+function warmUpEndpoint() {
+  if (Date.now() - lastWarmUpAt < WARM_UP_INTERVAL_MS) {
+    return;
+  }
+
+  lastWarmUpAt = Date.now();
+  fetch(GOOGLE_SCRIPT_URL, { method: "GET", mode: "no-cors", cache: "no-store" }).catch(() => {});
+}
+
+warmUpEndpoint();
+form.addEventListener("focusin", warmUpEndpoint);
+
 /* Prepare form data */
 
 function createSubmissionData() {
@@ -360,33 +382,73 @@ function createSubmissionData() {
   return submissionData;
 }
 
+/*
+ * Submission reliability. The Apps Script can take several seconds to answer,
+ * and under load Google sometimes returns an error page instead of the JSON
+ * confirmation. Each attempt is capped at SUBMIT_TIMEOUT_MS and a failed
+ * attempt is retried with the same submission_id, which the Apps Script uses
+ * to ignore repeats, so a retry can never save the sign-up twice.
+ */
+const SUBMIT_TIMEOUT_MS = 25000;
+const RETRY_DELAYS_MS = [1500, 4000];
+const SLOW_NOTICE_MS = 5000;
+
+function wait(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
 /* The Apps Script must return CORS-enabled JSON: { "success": true }. */
 
-async function submitWaitlist(submissionData) {
-  const response = await fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-    },
-    body: submissionData,
-  });
-
-  if (!response.ok) {
-    throw new Error(`The server returned ${response.status}.`);
-  }
-
-  let result;
+async function submitOnce(submissionData) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), SUBMIT_TIMEOUT_MS);
 
   try {
-    result = await response.json();
-  } catch {
-    throw new Error("The server did not return a valid confirmation.");
-  }
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: submissionData,
+      signal: controller.signal
+    });
 
-  if (result?.success !== true) {
-    throw new Error("The server did not confirm the submission.");
+    if (!response.ok) {
+      throw new Error(`The server returned ${response.status}.`);
+    }
+
+    let result;
+
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error("The server did not return a valid confirmation.");
+    }
+
+    if (result?.success !== true) {
+      throw new Error("The server did not confirm the submission.");
+    }
+  } finally {
+    clearTimeout(timeout);
   }
 }
+
+async function submitWaitlist(submissionData) {
+  for (let attempt = 0; ; attempt += 1) {
+    try {
+      await submitOnce(submissionData);
+      return;
+    } catch (error) {
+      if (attempt >= RETRY_DELAYS_MS.length) {
+        throw error;
+      }
+
+      console.warn(`Waitlist submission attempt ${attempt + 1} failed, retrying:`, error);
+      await wait(RETRY_DELAYS_MS[attempt]);
+    }
+  }
+}
+
 
 /* Display success screen */
 
@@ -494,12 +556,18 @@ form.addEventListener("submit", async (event) => {
   submitButton.classList.add("is-submitting");
   submitButton.textContent = "Submitting...";
 
+  /* Reassure people who are left waiting, so they don't leave or resubmit */
+  const slowNotice = setTimeout(() => {
+    submitButton.textContent = "Still saving...";
+  }, SLOW_NOTICE_MS);
+
   const submissionData = pendingSubmissionData || createSubmissionData();
   pendingSubmissionData = submissionData;
   clearSubmissionError();
 
   try {
     await submitWaitlist(submissionData);
+    clearTimeout(slowNotice);
 
     form.reset();
     pendingSubmissionData = null;
@@ -509,6 +577,7 @@ form.addEventListener("submit", async (event) => {
 
     await showSuccessMessage();
   } catch (error) {
+    clearTimeout(slowNotice);
     console.error("Waitlist submission failed:", error);
 
     resetSubmitButton();
