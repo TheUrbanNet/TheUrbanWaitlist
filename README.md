@@ -135,6 +135,21 @@ Script editor. Worth exporting a copy (via `clasp` or by hand) if you need its h
 The endpoint is visible in client-side JS. That is unavoidable for a static site, so the
 Apps Script must treat every submission as untrusted and do its own validation.
 
+### Reliability under load
+
+The Apps Script can take seconds to answer (up to ~20s when it has been idle), and under
+load Google sometimes returns an error page instead of JSON. The forms therefore:
+
+- send a warm-up `GET` when the page opens (answered by `doGet`), so the script is already
+  running by the time someone presses Join;
+- give each attempt 25 seconds and retry up to twice, always with the same `submission_id`.
+  The Apps Script ignores a repeated id for 6 hours, so a retry never saves a sign-up twice;
+- show "Still saving..." after 5 seconds so people don't leave.
+
+The Apps Script only saves the row and replies. Confirmation emails are sent within a
+minute by its `processEmailQueue` trigger. Deploy Apps Script changes before site changes
+that depend on them.
+
 ### Spam protection
 
 Both forms send two extra fields the Apps Script should check before saving a row:
