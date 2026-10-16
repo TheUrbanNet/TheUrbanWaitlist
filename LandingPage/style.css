@@ -1459,9 +1459,11 @@ nav {
         flex-wrap: wrap;
         justify-content: center;
         text-align: center;
-        gap: 0.8rem;
+        /* Wider than the gap between Accept and Decline, so the two buttons
+           read as one group, separate from the sentence */
+        gap: 0.5rem 1.25rem;
 
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 0.5rem 0.5rem 1rem;
         border-radius: 0.5rem;
 
         color: #e5e5e5;
@@ -1505,14 +1507,14 @@ nav {
         display: flex;
         align-items: center;
         flex-shrink: 0;
-        gap: 0.5rem;
+        gap: 0.25rem;
     }
 
     .consent-banner-button {
         /* Padded out to a usable touch target; these sat flush against each
            other and against the footer links behind them. */
         min-height: 2.25rem;
-        padding: 0 0.5rem;
+        padding: 0 0.75rem;
 
         display: inline-flex;
         align-items: center;
@@ -1544,9 +1546,19 @@ nav {
         }
     }
 
+    /* Accept is the filled button; Decline stays plain text beside it. Only
+       "Learn more" is underlined, because it is the only link. */
     #acceptCookiesBtn {
-        text-decoration: underline;
-        text-underline-offset: 2px;
+        border-radius: 999px;
+        background-color: #fff;
+        color: var(--primary-color);
+        font-weight: 700;
+
+        @media (hover: hover) {
+            &:hover {
+                background-color: #fff3ee;
+            }
+        }
     }
 }
 
