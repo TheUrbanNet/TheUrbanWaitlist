@@ -127,7 +127,15 @@
   window.addEventListener('resize', handleResize);
   window.addEventListener('wheel', markUserIntent, { passive: true });
   window.addEventListener('touchstart', markUserIntent, { passive: true });
-  window.addEventListener('keydown', markUserIntent);
+ 
+  // Restrict manual scroll intent to explicit scroll/navigation keys only
+  const SCROLL_KEYS = new Set(['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ']);
+  window.addEventListener('keydown', (event) => {
+    if (SCROLL_KEYS.has(event.key)) {
+      markUserIntent();
+    }
+  });
+
   window.addEventListener('load', schedule);
 
   const desktop = window.matchMedia('(min-width: 900px)');
