@@ -21,7 +21,7 @@ body {
     min-height: 100svh;
     background-color: rgba(0, 0, 0, 0.4);
     font-family: var(--alternative-font);
-    background-image: url("../assets/roles_bg.png");
+    background-image: url("../assets/roles_bg.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

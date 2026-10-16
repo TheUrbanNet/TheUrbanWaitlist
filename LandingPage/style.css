@@ -1770,7 +1770,7 @@ nav {
     .OurUVP .UVPcontainer::before {
         background-image:
             linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)),
-            url("../assets/UVP1.png");
+            url("../assets/UVP1.webp");
         filter: blur(2px);
         transform: scale(1.03);
     }
