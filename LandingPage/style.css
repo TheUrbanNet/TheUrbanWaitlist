@@ -1459,11 +1459,9 @@ nav {
         flex-wrap: wrap;
         justify-content: center;
         text-align: center;
-        /* Wider than the gap between Accept and Decline, so the two buttons
-           read as one group, separate from the sentence */
-        gap: 0.5rem 1.25rem;
+        gap: 0.25rem 0.75rem;
 
-        padding: 0.5rem 0.5rem 0.5rem 1rem;
+        padding: 0.75rem 1rem 0.5rem;
         border-radius: 0.5rem;
 
         color: #e5e5e5;
@@ -1475,7 +1473,11 @@ nav {
         line-height: 1.25rem;
     }
 
+    /* Phones: the sentence takes the full first row, so the actions wrap
+       underneath it on a row of their own */
     .consent-banner-description {
+        flex-basis: 100%;
+        justify-content: center;
         display: flex;
         align-items: center;
         gap: 0.3rem;
@@ -1488,18 +1490,31 @@ nav {
             flex-shrink: 0;
             display: block;
         }
+    }
 
-        a {
-            color: #fff;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-            white-space: nowrap;
+    /* Two groups: "Learn more", then the Accept/Decline pair. The gap between
+       the groups is much wider than the gap inside the pair, so Accept and
+       Decline read as related and the link reads as separate. */
+    .consent-banner-actions {
+        /* Phones: full width, link at the left edge and buttons at the right */
+        flex-basis: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2.5rem;
+    }
 
-            &:focus-visible {
-                outline: 2px solid #fff;
-                outline-offset: 2px;
-                border-radius: 0.25rem;
-            }
+    .consent-banner-link {
+        color: #fff;
+        font-family: var(--alternative-font);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        white-space: nowrap;
+
+        &:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+            border-radius: 0.25rem;
         }
     }
 
@@ -1662,6 +1677,17 @@ nav {
         flex-wrap: nowrap;
         justify-content: flex-start;
         text-align: left;
+        padding: 0.5rem 0.5rem 0.5rem 1rem;
+    }
+
+    /* One line: sentence, link, then the button pair */
+    .consent-banner .consent-banner-description {
+        flex-basis: auto;
+    }
+
+    .consent-banner .consent-banner-actions {
+        flex-basis: auto;
+        gap: 1.25rem;
     }
 }
 
