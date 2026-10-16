@@ -36,15 +36,16 @@
 
   <style>
     /*
-      Mirrors theurbannet.com/coming-soon (same image, gradient, type scale and
-      button) so a wrong link still feels like part of the same site.
+      Photo on the left fading into a dark brown panel, with the copy and two
+      ways back (home, or straight into the waitlist) on the right.
     */
     :root {
       --heading-font: 'Space Grotesk', sans-serif;
       --alternative-font: 'Manrope', sans-serif;
       --primary-color: #DF5B2E;
       --primary-dark: #C94E26;
-      --backdrop: #E36B28;
+      --accent: #EE8A4A;
+      --backdrop: #2A1108;
       --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
@@ -73,18 +74,18 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: 8% center;
+      object-position: center top;
     }
 
-    /* Darkens the bottom on phones, where the copy sits over the photo */
+    /* On phones the photo fills the screen and fades into the brown behind the copy */
     .wash {
       position: absolute;
       inset: 0;
       pointer-events: none;
       background: linear-gradient(to top,
-        rgba(0, 0, 0, 0.5),
-        rgba(0, 0, 0, 0.15),
-        transparent);
+        var(--backdrop) 38%,
+        rgba(42, 17, 8, 0.7) 60%,
+        rgba(42, 17, 8, 0) 85%);
     }
 
     .layout {
@@ -129,17 +130,22 @@
       font-size: 1rem;
       letter-spacing: 0.38em;
       text-transform: uppercase;
+      color: var(--accent);
     }
 
     h1 {
       margin-top: 0.75rem;
       font-family: var(--heading-font);
       font-weight: 700;
-      font-size: clamp(3.75rem, 12vw, 6.5rem);
-      line-height: 0.88;
+      font-size: clamp(3.75rem, 12vw, 7.5rem);
+      line-height: 0.92;
       letter-spacing: -0.025em;
       text-transform: uppercase;
       filter: drop-shadow(0 4px 28px rgba(0, 0, 0, 0.28));
+    }
+
+    h1 .accent {
+      color: var(--accent);
     }
 
     .description {
@@ -151,8 +157,15 @@
       text-wrap: pretty;
     }
 
+    .actions {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.25rem 2rem;
+    }
+
     .button {
-      margin-top: 1rem;
       min-width: 230px;
       padding: 0.875rem 2.5rem;
 
@@ -189,11 +202,39 @@
       outline-offset: 2px;
     }
 
-    @media (min-width: 40rem) {
-      .photo {
-        object-position: 4% center;
+    .text-link {
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+      color: #fff;
+      font-size: 1.125rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 300ms var(--ease-out);
+    }
+
+    .text-link span {
+      display: inline-block;
+      margin-left: 0.35rem;
+      transition: transform 300ms var(--ease-out);
+    }
+
+    @media (hover: hover) {
+      .text-link:hover {
+        border-color: #fff;
       }
 
+      .text-link:hover span {
+        transform: translateX(0.25rem);
+      }
+    }
+
+    .text-link:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 4px;
+      border-radius: 0.25rem;
+    }
+
+    @media (min-width: 40rem) {
       .layout {
         padding-inline: 2.5rem;
       }
@@ -210,21 +251,32 @@
         min-width: 270px;
         font-size: 0.875rem;
       }
+
+      .text-link {
+        font-size: 1.25rem;
+      }
     }
 
-    /* From tablet up the copy moves to the right, over the plain backdrop */
+    /* From tablet up the photo takes the left side and fades into the brown
+       panel, and the copy sits on the right over the plain backdrop */
     @media (min-width: 48rem) {
+      .photo {
+        width: 58%;
+        object-position: center top;
+      }
+
       .wash {
-        background: linear-gradient(to left,
-          rgba(0, 0, 0, 0.5),
-          rgba(227, 107, 40, 0.3),
-          transparent);
+        background: linear-gradient(to right,
+          rgba(42, 17, 8, 0) 0%,
+          rgba(42, 17, 8, 0) 30%,
+          rgba(42, 17, 8, 0.85) 48%,
+          var(--backdrop) 56%);
       }
 
       .layout {
         padding-block: 4rem;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
       }
 
       .content {
@@ -248,30 +300,55 @@
         margin-top: 1.5rem;
       }
 
-      .button {
+      .actions {
         margin-top: 2.25rem;
       }
     }
 
     @media (min-width: 64rem) {
-      .photo {
-        object-position: 40% center;
-      }
-
       .content {
-        margin-right: 2rem;
-        max-width: 42rem;
+        max-width: 38rem;
       }
     }
 
     @media (min-width: 80rem) {
+      /* Slightly closer crop on large screens so the person fills the left side */
+      .photo {
+        width: 54%;
+        transform: scale(1.12);
+        transform-origin: 55% 25%;
+      }
+
       .layout {
-        justify-content: flex-end;
         padding-inline: 4rem;
       }
 
       .content {
-        margin-right: -3rem;
+        width: 44%;
+        max-width: none;
+      }
+
+      .logo {
+        margin-bottom: 7rem;
+      }
+
+      .logo svg {
+        width: 13rem;
+      }
+
+      .description {
+        max-width: 33rem;
+        font-size: 1.375rem;
+      }
+
+      .button {
+        min-width: 240px;
+        padding: 1.15rem 2.5rem;
+        font-size: 1rem;
+      }
+
+      .text-link {
+        font-size: 1.375rem;
       }
     }
 
@@ -293,10 +370,10 @@
   <main class="not-found">
     <img
       class="photo"
-      src="/assets/coming-soon-hero.webp"
+      src="/assets/fashion.webp"
       alt=""
-      width="1672"
-      height="941"
+      width="1080"
+      height="1440"
       fetchpriority="high"
     >
     <div class="wash"></div>
@@ -351,13 +428,16 @@
         </a>
 
         <p class="eyebrow">Looks like you took a</p>
-        <h1>Wrong<br>Turn</h1>
+        <h1>Wrong<br><span class="accent">Turn.</span></h1>
         <p class="description">
           This page doesn't exist or has moved. Let's get you back to finding
           trusted local services.
         </p>
 
-        <a class="button" href="/">Back to home</a>
+        <div class="actions">
+          <a class="button" href="/">Back to home</a>
+          <a class="text-link" href="/RoleSelection/roles">Join the waitlist<span aria-hidden="true">→</span></a>
+        </div>
       </div>
     </div>
   </main>
