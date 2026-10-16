@@ -222,6 +222,13 @@ body {
   .contents {
     position: sticky;
     top: 2rem;
+    /* Keep the whole sidebar inside the window; it scrolls on its own when the
+       list is taller than the screen (policy-navigation.js follows the active item). */
+    max-height: calc(100vh - 4rem);
+    max-height: calc(100dvh - 4rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
   }
 }
 
