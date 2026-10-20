@@ -423,7 +423,7 @@ nav {
             gap: 0;
             width: max-content;
             will-change: transform;
-            animation: marquee-scroll 22s linear infinite;
+            animation: marquee-scroll 88s linear infinite; /* Since I repeated the sequence 4 times, I also miltiplied the secs by 4: 22*4 = 88s */
         }
 
         .marquee-slide {
